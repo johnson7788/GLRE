@@ -47,7 +47,7 @@ GLRE/
 
 ### Usage
 #### 数据和预处理
-数据集包括CDR和DocRED。数据分别位于`data/CDR`目录和`data/DocRED`目录。
+手动下载数据，数据集包括CDR和DocRED。将数据分别放到`data/CDR`目录和`data/DocRED`目录。
 预处理脚本位于`data_processing`目录，预处理结果分别位于`data/CDR/processed`目录和`data/DocRED/processed`目录。
 预处理后的模型在`results`目录下。
 
@@ -67,12 +67,45 @@ GLRE/
     为了处理数据集，首先要将它们转换为PubTator格式。运行处理脚本如下。
     $ sh process_cdr.sh
 
+##### DocRED数据集
+```buildoutcfg
+GLRE/data/DocRED/
+├── README.md
+├── char2id.json  字符到id的映射
+├── dev.json   开发集
+├── processed      #保存处理后的文件
+├── rel_info.json  关系数据
+├── test.json       测试集
+└── train_annotated.json        训练集
+```
 然后，请使用以下代码对DocRED数据集进行预处理。  
-    python docRedProcess.py --input_file ../data/DocRED/train_annotated.json \
-                       --output_file ../data/DocRED/processed/train_annotated.data \
+```buildoutcfg
+python docRedProcess.py
+生成数据:
+├── processed
+│   ├── dev.data
+│   ├── test.data
+│   └── train_annotated.data
+最终训练文件
+.
+├── README.md
+├── char2id.json
+├── dev.json
+├── processed
+│   ├── dev.data
+│   ├── ner2id.json
+│   ├── rel2id.json    #里面关系Na改成NA
+│   ├── test.data
+│   ├── train_annotated.data
+│   └── word2id.json
+├── rel_info.json
+├── test.json
+└── train_annotated.json
+```
     
 #### Train & Test
 首先，你应该从以下地方下载biobert_base和bert_base. [figshare](https://doi.org/10.6084/m9.figshare.12967169) 并将它们放在GLRE目录中。
+也可以不用手动下载这几个预训练模型，会自动下载，如果手动下载，请放到GLRE的根目录下，例如 GLRE/bert_base/xxx模型文件, 具体路径参考: src/nnet/transformers_word_handle.py 的函数transformers_word_handle
 
 默认的超参数在 "configs "目录下，training&test脚本在 "scripts "目录下。
 另外，"run_cdr_train+dev.py "脚本对应的是 "traing+dev "设置下的CDR。
@@ -80,6 +113,18 @@ GLRE/
     python scripts/run_cdr.py
     python scripts/run_cdr_train+dev.py
     python scripts/run_docred.py
+
+#### docred 训练
+```buildoutcfg
+python main.py
+--train
+--batch=8
+--test_data=data/DocRED/processed/dev.data
+--config_file=configs/docred_basebert.yaml
+--save_pred=dev
+--output_path=results/docred-dev/docred_basebert_full/
+```
+
 
 #### Evaluation
 对于CDR，您可以使用以下评估脚本来评估结果。

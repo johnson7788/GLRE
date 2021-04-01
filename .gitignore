@@ -128,3 +128,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+*.zip
+data_processing/common/
+data/DocRED/

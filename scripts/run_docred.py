@@ -9,8 +9,9 @@ inp = parser.parse_args()
 
 config_path = './configs/docred_basebert.yaml'
 output_path = './results/docred-dev/docred_basebert_full/'
-os.system('CUDA_VISIBLE_DEVICES=' + str(inp.gpu)+ ' python ./src/main.py --train --batch=' + str(inp.batch)+ ' --test_data=./data/DocRED/processed/dev.data'
-          ' --config_file=' + config_path+ ' --save_pred=dev --output_path=' + output_path)
+cmd = f"CUDA_VISIBLE_DEVICES={str(inp.gpu)}  python ./src/main.py --train --batch={ str(inp.batch)}  --test_data=./data/DocRED/processed/dev.data --config_file={config_path} --save_pred=dev --output_path={output_path}"
+print(cmd)
+os.system(cmd)
 
 with open(os.path.join(output_path, "train_finsh.ok"), 'r') as f:
     for line in f.readlines():
