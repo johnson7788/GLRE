@@ -114,7 +114,14 @@ python docRedProcess.py
     python scripts/run_cdr_train+dev.py
     python scripts/run_docred.py
 
-#### docred 训练
+### DocRED的配置文件
+```buildoutcfg
+configs/docred_basebert.yaml
+# -1表示不适用gpu，使用CPU，0表示使用第0个gpu
+gpu: -1
+```
+
+#### DocRED 训练
 ```buildoutcfg
 python main.py
 --train

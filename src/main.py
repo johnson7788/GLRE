@@ -22,6 +22,7 @@ def set_seed(seed):
 
 
 def train(parameters):
+    # 模型保存的目录 eg: './results/docred-dev/docred_basebert_full/'
     model_folder = setup_log(parameters, parameters['save_pred'] + '_train')
     set_seed(parameters['seed'])
 
@@ -32,7 +33,7 @@ def train(parameters):
     #     print('\nLoading mappings ...')
     #     train_loader = load_mappings(parameters['remodelfile'])
     # else:
-    print('Loading training data ...')
+    print('加载训练数据 ...')
     train_loader = DataLoader(parameters['train_data'], parameters)
     train_loader(embeds=parameters['embeds'], parameters=parameters)
     train_data, _ = DocRelationDataset(train_loader, 'train', parameters, train_loader).__call__()
@@ -76,10 +77,13 @@ def _test(parameters):
 def main():
     config = ConfigLoader()
     parameters = config.load_config()
-
+    #如果是训练模式
+    print("设定的参数有:")
+    for k, v in parameters.items():
+        print(f"{k}: {v}")
     if parameters['train']:
         train(parameters)
-
+    #如果是测试模式
     elif parameters['test']:
         _test(parameters)
 

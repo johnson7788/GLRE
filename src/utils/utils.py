@@ -208,7 +208,7 @@ def setup_log(params, mode):
         model_folder (str): model directory
     """
 
-    #folder_name = params['output_path']
+    #eg: './results/docred-dev/docred_basebert_full/' 保存训练后的模型
     model_folder = params['output_path']
 
     if not os.path.exists(model_folder):

@@ -21,8 +21,8 @@ class ConfigLoader:
     def load_cmd():
         parser = argparse.ArgumentParser()
         # parser.add_argument('--config', type=str, required=True, help='Yaml parameter file')
-        parser.add_argument('--train', action='store_true', help='Training mode - model is saved')
-        parser.add_argument('--test', action='store_true', help='Testing mode - needs a model to load')
+        parser.add_argument('--train', action='store_true', help='训练模式')
+        parser.add_argument('--test', action='store_true', help='测试模式，需要加载训练好的模型')
 
         parser.add_argument("--feature", default=str)
 
@@ -46,7 +46,7 @@ class ConfigLoader:
 
         parameters = dict(parameters)
         if not inp.train and not inp.test:
-            print('Please specify train/test mode.')
+            print('必须指定训练或测试模式')
             sys.exit(0)
 
         parameters['feature'] = inp.feature

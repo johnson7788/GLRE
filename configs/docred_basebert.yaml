@@ -68,4 +68,5 @@ shuffle_data: true
 label2ignore: NA
 primary_metric: micro_f
 direction: l2r+r2l
-gpu: 0
+# -1表示不适用gpu，使用CPU，0表示使用第0个gpu
+gpu: -1

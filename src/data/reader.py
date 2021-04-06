@@ -79,14 +79,14 @@ def read(input_file, documents, entities, relations):
     # relation_have = {}
     entities_cor_id = {}
     with open(input_file, 'r', encoding='utf-8') as infile:
-        print("input file ", input_file, "DocRED" in input_file)
+        print(f"读取DocRED文件: {input_file}")
         if 'DocRED' in input_file:
             split_n = '||'
         else:
             split_n = '|'
         for line in infile:
             line = line.strip().split('\t')
-            pmid = line[0]
+            pmid = line[0]   #样本的id，按顺序的0，1，2，3，。。。。
             text = line[1]
             # print("pmid:\t" + pmid)
             # print("text:\t", str(text).encode())
@@ -154,5 +154,7 @@ def read(input_file, documents, entities, relations):
             del documents[pmid]
             del entities[pmid]
             del relations[pmid]
-
+    # lengths: list, 总共样本数，数字表示的这个样本中最长的句子的长度, sents: 表示样本中每个句子的长度， documents：表示具体的样本内容
+    # entities： 实体信息，包括实体ID，实体类型，实体起始位置
+    # 关系信息，（2个实体id和他们之间的关系）, entities_cor_id: 实体关系的例如第一个句子 ： id: {'0': 1, '1': 2, '2': 3, '3': 4, '4': 5, '5': 6, '6': 7, '7': 8, '8': 9, '9': 10, '10': 11, '11': 12, '12': 13, '13': 14, '14': 15, '15': 16, '16': 17}
     return lengths, sents, documents, entities, relations, entities_cor_id
